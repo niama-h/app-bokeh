@@ -32,13 +32,22 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
 ```kotlin
 app-bokeh/
 │
-├── code.py
 ├── dataset/
-│   ├── data1.csv
-│   ├── data2.csv
+│   └── data1.csv
+│   └── data2.csv
 │   └── data3.csv
+│
+├── notebook/
+│   └── exploration.ipynb
+│
 ├── requirements.txt
+├── script/
+│   └── code.py
+│
 └── README.md
+
+
+
 
 
    
