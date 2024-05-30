@@ -25,9 +25,9 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
    pip install -r requirements.txt
 ### Utilisation
 Exécuter le script principal :
-   ```bash
-   python code.py
+  
 ### Structure du Répertoire
+
    
 
 
