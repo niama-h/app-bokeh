@@ -14,3 +14,14 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
 + Python 3.7
 + Pandas
 + Bokeh
+### Installation
+1. Clonez le dépôt :
+   ```bash
+   git clone https://github.com/niama-h/app-bokeh.git
+2. Accédez au répertoire du projet :
+   ```bash
+   cd app-bokeh
+3. Installez les dépendances :
+
+
+
