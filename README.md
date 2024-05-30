@@ -5,9 +5,8 @@ Ce projet consiste à analyser les données sur le chômage au Maroc. Nous avons
 2. Dépendances
 3. Installation
 4. Utilisation
-5. Visualisations
-6. Structure du Répertoire
-7. Auteurs
+5. Structure du Répertoire
+6. Auteurs
 ### Introduction
 Le but de ce projet est de fournir une analyse visuelle des taux de chômage au Maroc au fil des années, en utilisant des techniques de visualisation de données pour rendre les informations plus accessibles et compréhensibles.
 ### Dépendances
@@ -25,7 +24,10 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
    ```bash
    pip install -r requirements.txt
 ### Utilisation
-
+Exécuter le script principal :
+   ```bash
+   python code.py
+### Structure du Répertoire
    
 
 
