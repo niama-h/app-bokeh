@@ -22,6 +22,11 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
    ```bash
    cd app-bokeh
 3. Installez les dépendances :
+   ```bash
+   pip install -r requirements.txt
+### Utilisation
+
+   
 
 
 
