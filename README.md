@@ -11,6 +11,6 @@ Ce projet consiste à analyser les données sur le chômage au Maroc. Nous avons
 ### Introduction
 Le but de ce projet est de fournir une analyse visuelle des taux de chômage au Maroc au fil des années, en utilisant des techniques de visualisation de données pour rendre les informations plus accessibles et compréhensibles.
 ### Dépendances
-*Python 3.7+
-*Pandas
-*Bokeh
+-Python 3.7+
+-Pandas
+-Bokeh
