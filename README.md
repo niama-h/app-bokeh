@@ -24,11 +24,11 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
    ```bash
    pip install -r requirements.txt
 ### Utilisation
-Exécuter le script principal :
-    ```bash
-python code.py
+1. Exécuter le script principal :
+   ```bash
+   python code.py
 
-  ### Structure du Répertoire
+### Structure du Répertoire
 ```kotlin
 app-bokeh/
 │
