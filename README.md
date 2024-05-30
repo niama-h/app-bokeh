@@ -25,8 +25,21 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
    pip install -r requirements.txt
 ### Utilisation
 Exécuter le script principal :
-  
-### Structure du Répertoire
+    ```bash
+python code.py
+
+  ### Structure du Répertoire
+```kotlin
+app-bokeh/
+│
+├── code.py
+├── dataset/
+│   ├── data1.csv
+│   ├── data2.csv
+│   └── data3.csv
+├── requirements.txt
+└── README.md
+
 
    
 
