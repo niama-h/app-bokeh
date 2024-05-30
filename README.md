@@ -47,8 +47,8 @@ app-bokeh/
 └── README.md
 ```
 ### Auteurs
-MONCIF Mouad - 
-HDADACHE Niama - https://github.com/niama-h
+* MONCIF Mouad - 
+* HDADACHE Niama - https://github.com/niama-h
 
 
 
