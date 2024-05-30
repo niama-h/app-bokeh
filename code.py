@@ -16,14 +16,35 @@ from bokeh.transform import dodge
 import numpy as np
 from bokeh.models import LinearColorMapper
 
+ output_file("x.html")
+
 df=pd.read_csv('data1.csv')
 df1=df[df['Milieu de résidence']=='National'] 
 df1=df1[df1['Sexe']=='Total'] 
 df1
 df0=df[df['Milieu de résidence']=='National'] 
+
+
+#Visualisation 1
+
+p1 = figure(title="Total Unemployment by Duration and Year (National)", x_axis_label='Year', y_axis_label='Total')
+years = [str(year) for year in range(1999, 2022)]
+colors = Category10[len(df1)]
+for (duree, color) in zip(df1['Durée de chômage'].unique(), colors):
+    subset = df1[df1['Durée de chômage'] == duree]
+    source = ColumnDataSource(data={
+        'year': [int(year) for year in years],
+        'total': subset[years].values.flatten()
+    })
+    p1.line('year', 'total', source=source, line_width=2, color=color, legend_label=duree)
+
+p1.legend.title = "Durée de chômage"
+p1.legend.location = "top_left"
+p1.grid.grid_line_alpha = 0.3
+
 #
 sexes = ['Masculin', 'Feminin']
-output_notebook()
+
 df0=df0[df0['Durée de chômage']=='Moins de 12 mois']
 df2=df0[df0['Sexe']=='Total'] 
 df3=df0[df0['Sexe']=='Feminin'] 
@@ -34,6 +55,22 @@ data = {
     'Feminin': df3[years].values.flatten(),
 }
 source = ColumnDataSource(data=data)
+
+#Visualisation 2
+p = figure(x_range=years, height=400, width=800, title="Chomage de moins de 12 mois par sexe pour chaque année",
+           toolbar_location=None, tools="")
+
+# Add stacked bars
+p2.vbar_stack(sexes, x='years', width=0.9, color=['#718dbf', '#e84d60'], source=source, legend_label=sexes)
+# Configure the plot
+p2.y_range.start = 0
+p2.xgrid.grid_line_color = None
+p2.axis.minor_tick_line_color = None
+p2.outline_line_color = None
+p2.xaxis.major_label_orientation = 1.2
+p2.legend.title = 'Sexe'
+p2.legend.location = "top_left"
+p2.legend.orientation = "horizontal"
 
 #
 df4=df[df['Milieu de résidence']=='National'] 
@@ -48,6 +85,24 @@ data = {
 }
 
 source = ColumnDataSource(data=data)
+#Visualisation 3
+# Define the bar chart
+p3 = figure(x_range=years, height=400, width=800, title="Chomage de moins de plus de 60 mois par sexe pour chaque année",
+           toolbar_location=None, tools="")
+
+# Add stacked bars
+p3.vbar_stack(sexes, x='years', width=0.9, color=['#718dbf', '#e84d60'], source=source, 
+             legend_label=sexes)
+
+# Configure the plot
+p3.y_range.start = 0
+p3.xgrid.grid_line_color = None
+p3.axis.minor_tick_line_color = None
+p3.outline_line_color = None
+p3.xaxis.major_label_orientation = 1.2
+p3.legend.title = 'Sexe'
+p3.legend.location = "top_left"
+p3.legend.orientation = "horizontal"
 
 #
 data = {
@@ -62,6 +117,17 @@ data = data.reset_index(name='value').rename(columns={'Milieu de résidence': 'm
 data['angle'] = data['value'] / 100 * 2 * pi
 colors = ["#1f77b4", "#ff7f0e"]
 data['color'] = colors[:len(data)]
+#Visualisation 4
+p4 = figure(height=350, title="Taux de chômage en 2020", toolbar_location=None,
+           tools="hover", tooltips="@milieu: @value{0.2f}%", x_range=(-0.5, 1.0))
+
+p4.wedge(x=0, y=1, radius=0.4,
+        start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+        line_color="white", fill_color='color', legend_field='milieu', source=data)
+
+p4.axis.axis_label = None
+p4.axis.visible = False
+p4.grid.grid_line_color = None
 
 #
 data = {
@@ -91,6 +157,18 @@ data['angle'] = data['value'] / 100 * 2 * pi
 # Use a color palette
 data['color'] = Category20c[len(data)]
 
+#Visualisation 5
+p5 = figure(height=350, title="Distribution of Diplômes for 1999 (National)", toolbar_location=None,
+           tools="hover", tooltips="@diplome: @value{0.2f}%", x_range=(-0.5, 1.0))
+
+p5.wedge(x=0, y=1, radius=0.4,
+        start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+        line_color="white", fill_color='color', legend_field='diplome', source=data)
+
+p5.axis.axis_label = None
+p5.axis.visible = False
+p5.grid.grid_line_color = None
+
 #
 data = {
     "Year": [2010, 2020],
@@ -115,6 +193,20 @@ source = ColumnDataSource(data={
     **{cat: filtered_df[filtered_df[category_column] == cat][years].values.flatten() for cat in categories_to_plot}
 })
 
+#Visualisation 6
+p6 = figure(height=400, width=600, title="Comparaison du taux de chômage pour 2010 et 2020(National)",
+           x_axis_label='Year', y_axis_label='Value', toolbar_location=None, tools="")
+
+# Add a line renderer
+p6.line(x=df["Year"], y=df["Value"], line_width=2, color="navy", legend_label="Values")
+
+# Add circle markers at each data point
+p6.circle(x=df["Year"], y=df["Value"], size=10, color="red", legend_label="Values")
+
+# Customize the plot
+p6.legend.location = "top_left"
+p6.xaxis.ticker = [2010, 2020]
+
 #
 category_column ="Indicateurs"
 
@@ -130,120 +222,6 @@ source = ColumnDataSource(data={
     'year': years,
     **{cat: filtered_df[filtered_df[category_column] == cat][years].values.flatten() for cat in categories_to_plot}
 })
-
-#
-categories_to_plot = ['Sans diplôme(u)','Niveau moyen(u)','Niveau supérieur(u)','Ayant un diplôme(u)','Sans diplôme(r)','Ayant un diplôme(r)']
-filtered_df1 = data[data[category_column].isin(categories_to_plot)]
-# Define x and y values for the heatmap
-x = [str(col) for col in filtered_df1.columns[1:]] # Exclude the first column which contains the y-axis values
-y = filtered_df1['Indicateurs']
-
-# Convert DataFrame values to a numpy array for the heatmap
-values = filtered_df1.iloc[:, 1:].values.astype(float)
-min_value = np.min(values)
-max_value = np.max(values)
-
-# Create a LinearColorMapper to map values to colors
-mapper = LinearColorMapper(palette="Viridis256", low=np.min(values), high=np.max(values))
-
-source = ColumnDataSource(data={'x': np.repeat(x, len(y)), 
-                                 'y': np.tile(np.flip(y), len(x)), 
-                                 'values': values.flatten()})
-
-
-
-
-
-
-#Visualisation 1
-
-p1 = figure(title="Total Unemployment by Duration and Year (National)", x_axis_label='Year', y_axis_label='Total')
-years = [str(year) for year in range(1999, 2022)]
-colors = Category10[len(df1)]
-for (duree, color) in zip(df1['Durée de chômage'].unique(), colors):
-    subset = df1[df1['Durée de chômage'] == duree]
-    source = ColumnDataSource(data={
-        'year': [int(year) for year in years],
-        'total': subset[years].values.flatten()
-    })
-    p1.line('year', 'total', source=source, line_width=2, color=color, legend_label=duree)
-
-p1.legend.title = "Durée de chômage"
-p1.legend.location = "top_left"
-p1.grid.grid_line_alpha = 0.3
-
-#Visualisation 2
-p = figure(x_range=years, height=400, width=800, title="Chomage de moins de 12 mois par sexe pour chaque année",
-           toolbar_location=None, tools="")
-
-# Add stacked bars
-p2.vbar_stack(sexes, x='years', width=0.9, color=['#718dbf', '#e84d60'], source=source, legend_label=sexes)
-# Configure the plot
-p2.y_range.start = 0
-p2.xgrid.grid_line_color = None
-p2.axis.minor_tick_line_color = None
-p2.outline_line_color = None
-p2.xaxis.major_label_orientation = 1.2
-p2.legend.title = 'Sexe'
-p2.legend.location = "top_left"
-p2.legend.orientation = "horizontal"
-
-#Visualisation 3
-# Define the bar chart
-p = figure(x_range=years, height=400, width=800, title="Chomage de moins de plus de 60 mois par sexe pour chaque année",
-           toolbar_location=None, tools="")
-
-# Add stacked bars
-p.vbar_stack(sexes, x='years', width=0.9, color=['#718dbf', '#e84d60'], source=source, 
-             legend_label=sexes)
-
-# Configure the plot
-p3.y_range.start = 0
-p3.xgrid.grid_line_color = None
-p3.axis.minor_tick_line_color = None
-p3.outline_line_color = None
-p3.xaxis.major_label_orientation = 1.2
-p3.legend.title = 'Sexe'
-p3.legend.location = "top_left"
-p3.legend.orientation = "horizontal"
-
-#Visualisation 4
-p4 = figure(height=350, title="Taux de chômage en 2020", toolbar_location=None,
-           tools="hover", tooltips="@milieu: @value{0.2f}%", x_range=(-0.5, 1.0))
-
-p4.wedge(x=0, y=1, radius=0.4,
-        start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
-        line_color="white", fill_color='color', legend_field='milieu', source=data)
-
-p4.axis.axis_label = None
-p4.axis.visible = False
-p4.grid.grid_line_color = None
-
-#Visualisation 5
-p5 = figure(height=350, title="Distribution of Diplômes for 1999 (National)", toolbar_location=None,
-           tools="hover", tooltips="@diplome: @value{0.2f}%", x_range=(-0.5, 1.0))
-
-p5.wedge(x=0, y=1, radius=0.4,
-        start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
-        line_color="white", fill_color='color', legend_field='diplome', source=data)
-
-p5.axis.axis_label = None
-p5.axis.visible = False
-p5.grid.grid_line_color = None
-
-#Visualisation 6
-p6 = figure(height=400, width=600, title="Comparaison du taux de chômage pour 2010 et 2020(National)",
-           x_axis_label='Year', y_axis_label='Value', toolbar_location=None, tools="")
-
-# Add a line renderer
-p6.line(x=df["Year"], y=df["Value"], line_width=2, color="navy", legend_label="Values")
-
-# Add circle markers at each data point
-p6.circle(x=df["Year"], y=df["Value"], size=10, color="red", legend_label="Values")
-
-# Customize the plot
-p6.legend.location = "top_left"
-p6.xaxis.ticker = [2010, 2020]
 
 #Visualisation 7
 p7 = figure(title="Category Values Over Years", x_axis_label='Year', y_axis_label='Value')
@@ -276,9 +254,38 @@ p8.legend.label_text_font_size = '5pt'
 p8.xgrid.grid_line_color = None
 p8.y_range.start = 0
 
+#
+
+
 #Visualisation 9
-p9 = figure(x_range=list(x),  y_range=list(y[::-1]), height=250, width=400,
-           title="Heatmap", toolbar_location=None, tools="hover", tooltips="$name: @$name")
+# Define the categories to plot
+categories_to_plot = ['Sans diplôme(u)', 'Niveau moyen(u)', 'Niveau supérieur(u)', 
+                      'Ayant un diplôme(u)', 'Sans diplôme(r)', 'Ayant un diplôme(r)']
+
+# Filter the DataFrame
+filtered_df1 = data[data[category_column].isin(categories_to_plot)]
+
+# Define x and y values for the heatmap
+x = [str(col) for col in filtered_df1.columns[1:]]  # Exclude the first column which contains the y-axis values
+y = filtered_df1[category_column]
+
+# Convert DataFrame values to a numpy array for the heatmap
+values = filtered_df1.iloc[:, 1:].values.astype(float)
+
+# Create a LinearColorMapper to map values to colors using the reversed 'RdYlBu' palette
+colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027"]
+mapper = LinearColorMapper(palette=colors, low=np.min(values), high=np.max(values))
+
+# Prepare the data source for the plot
+source = ColumnDataSource(data={
+    'x': np.repeat(x, len(y)),
+    'y': np.tile(y, len(x)),
+    'values': values.flatten()
+})
+
+# Create a Bokeh figure
+p9 = figure(x_range=list(x), y_range=list(y[::-1]), height=400, width=800,
+           title="Heatmap", toolbar_location=None, tools="hover", tooltips=[("value", "@values")])
 
 # Plot the heatmap using Rect glyph
 p9.rect(x="x", y="y", width=1, height=1, source=source,
@@ -295,6 +302,7 @@ p9.grid.grid_line_color = None
 
 ####
 layout = gridplot([[p1, p2, p3, p4, p5, p6, p7, p8, p9]])
-
 show(layout, notebook_handle=True)
+
+
 
