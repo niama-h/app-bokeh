@@ -293,5 +293,8 @@ p9.axis.major_tick_line_color = None
 p9.axis.minor_tick_line_color = None
 p9.grid.grid_line_color = None
 
+####
+layout = gridplot([[p1, p2, p3, p4, p5, p6, p7, p8, p9]])
 
+show(layout, notebook_handle=True)
 
