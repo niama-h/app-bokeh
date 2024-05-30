@@ -27,7 +27,7 @@ Le but de ce projet est de fournir une analyse visuelle des taux de chômage au 
 1. Exécuter le script principal :
    ```bash
    python code.py
-
+2. Assurez-vous que les fichiers du dataset sont dans le même dossier que le code.
 ### Structure du Répertoire
 ```kotlin
 app-bokeh/
